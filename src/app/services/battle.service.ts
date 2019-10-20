@@ -14,7 +14,7 @@ import { GithubService } from './github.service';
 import { Observable, of, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { CombatantInfo, GithubRepo, CombatantRepoInfo } from '../types';
+import { CombatantInfo, GithubRepo, CombatantRepoInfo } from '../../types';
 
 @Injectable()
 export class BattleService {

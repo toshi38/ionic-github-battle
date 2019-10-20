@@ -1,14 +1,30 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Ionic Blank
+      Github Battle
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
+  <h2>
+    Github battle
+    <span
+      >an Ionic example app by <a href="https://edument.se">Edument</a> and
+      <a href="mailto:info@lau.engineering">Lau Engineering</a></span
+    >
+  </h2>
+  <div *ngIf="!loginName">
+    You have to <button class="qa-login-button" (click)="logIn()">log in</button>, otherwise Github's API limits won't
+    let us have enough fun!
+  </div>
+  <div *ngIf="error" class="qa-error-section">
+    Something went wrong :(
+  </div>
+  <div *ngIf="loginName" class="qa-loggedin">
+    Logged in as {{ loginName }}.
+    <hr />
+    <!-- Fixme: Enable after battle is added -->
+    <!-- <battle></battle> -->
   </div>
 </ion-content>
