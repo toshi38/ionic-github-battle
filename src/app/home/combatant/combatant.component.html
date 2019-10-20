@@ -1,0 +1,5 @@
+<input class="qa-github-input" placeholder="Github user name" [(ngModel)]="field" (keyup.enter)="loadData()" />
+<button class="qa-load-button" (click)="loadData()" [disabled]="!canLoad">Load</button>
+<div *ngIf="mode === 'loading'" class="qa-load-indicator">...loading...</div>
+<div *ngIf="mode === 'error'" class="qa-error-indicator">Oh no, something wen't wrong :(</div>
+<combatantdetail *ngIf="mode === 'data'" [data]="data"></combatantdetail>
