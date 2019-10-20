@@ -1,0 +1,4 @@
+<div class="combatants">
+  <combatant [class.winner]="winner === 1" (stars)="setUserStars(1, $event)"></combatant>
+  <combatant [class.winner]="winner === 2" (stars)="setUserStars(2, $event)"></combatant>
+</div>
