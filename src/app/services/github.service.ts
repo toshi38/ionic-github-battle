@@ -18,44 +18,44 @@ import { GithubRepo, GithubUserFullInfo } from '../../types';
 
 @Injectable()
 export class GithubService {
-  constructor(private http: HttpClient, private urls: UrlService){}
+  constructor(private http: HttpClient, private urls: UrlService) {}
   getUser(id) {
-    return this.http.get<GithubUserFullInfo>(this.urls.urlToUser(id))
+    return this.http.get<GithubUserFullInfo>(this.urls.urlToUser(id));
   }
-  private getRepoListSinglePage(id,page=1) {
+  private getRepoListSinglePage(id, page = 1) {
     return this.http.get<GithubRepo[]>(this.urls.urlToRepoList(id, page), { observe: 'response' }).pipe(
-      map( (res) => ({
+      map(res => ({
         repos: res.body,
         pageNumber: page,
-        isLast: !(res.headers.get("link") || '').match(/rel=["']last["']/)
-      })
-    ));
+        isLast: !(res.headers.get('link') || '').match(/rel=["']last["']/),
+      }))
+    );
   }
-  private getRepoListPageStream(id,page=1): Observable<PageResponse> {
+  private getRepoListPageStream(id, page = 1): Observable<PageResponse> {
     return this.getRepoListSinglePage(id, page).pipe(
-      flatMap((page)=>{
-        let ret = of(page);
-        if(!page.isLast){
-          return ret.pipe(concat( this.getRepoListPageStream(id, page.pageNumber+1 ) ));
+      flatMap(page => {
+        const ret = of(page);
+        if (!page.isLast) {
+          return ret.pipe(concat(this.getRepoListPageStream(id, page.pageNumber + 1)));
         }
         return ret;
       }),
       share()
     );
   }
-  getRepos(userId){
-    let page$ = this.getRepoListPageStream(userId);
-    let all$ = page$.pipe(
-      map(val=>val.repos),
-      scan((acc, val)=> (acc||[]).concat(val))
+  getRepos(userId) {
+    const page$ = this.getRepoListPageStream(userId);
+    const all$ = page$.pipe(
+      map(val => val.repos),
+      scan((acc, val) => (acc || []).concat(val))
     );
-    let last$ = page$.pipe(filter(val => val.isLast));
+    const last$ = page$.pipe(filter(val => val.isLast));
     return all$.pipe(sample(last$));
   }
 }
 
 interface PageResponse {
-  repos: GithubRepo[]
-  pageNumber: number
-  isLast: boolean
+  repos: GithubRepo[];
+  pageNumber: number;
+  isLast: boolean;
 }

@@ -8,15 +8,14 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-
   const statusBarSpy = {
-    styleDefault: jest.fn()
+    styleDefault: jest.fn(),
   };
   const splashScreenSpy = {
-    hide: jest.fn()
+    hide: jest.fn(),
   };
   const platformSpy = {
-    ready: jest.fn().mockReturnValue(Promise.resolve())
+    ready: jest.fn().mockReturnValue(Promise.resolve()),
   };
 
   beforeEach(async(() => {
@@ -46,5 +45,4 @@ describe('AppComponent', () => {
   });
 
   // TODO: add more tests!
-
 });

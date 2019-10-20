@@ -4,18 +4,9 @@
     "outDir": "./out-tsc/spec",
     "module": "commonjs",
     "emitDecoratorMetadata": true,
-    "types": [
-      "jest",
-      "node"
-    ],
+    "types": ["jest", "node"],
     "allowJs": true
   },
-  "files": [
-    "zone-flags.ts",
-    "polyfills.ts"
-  ],
-  "include": [
-    "./**/*.spec.ts",
-    "./**/*.d.ts"
-  ]
+  "files": ["zone-flags.ts", "polyfills.ts"],
+  "include": ["./**/*.spec.ts", "./**/*.d.ts"]
 }

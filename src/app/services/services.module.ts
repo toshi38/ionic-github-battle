@@ -6,6 +6,6 @@ import { BattleService } from './battle.service';
 import { AuthService } from './auth.service';
 
 @NgModule({
-  providers: [ UrlService, GithubService, BattleService, AuthService ]
+  providers: [UrlService, GithubService, BattleService, AuthService],
 })
 export class ServiceModule {}

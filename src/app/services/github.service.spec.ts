@@ -11,12 +11,12 @@ Unit tests for the GithubService service. We need to test...
 // --------------- Service mocks ---------------
 
 const fakeHttpService = {
-  get: jest.fn().mockImplementation(() => new EventEmitter())
+  get: jest.fn().mockImplementation(() => new EventEmitter()),
 };
 
 const fakeUrlService = {
   urlToUser: jest.fn().mockImplementation(() => Symbol(`generated URL to user`)),
-  urlToRepoList: jest.fn().mockImplementation(() => Symbol(`generated URL to repos`))
+  urlToRepoList: jest.fn().mockImplementation(() => Symbol(`generated URL to repos`)),
 };
 
 // --------------- Test config ---------------
@@ -28,10 +28,10 @@ import { GithubService } from './github.service';
 const testModuleConfig = {
   providers: [
     GithubService,
-    {provide: HttpClient, useValue: fakeHttpService},
-    {provide: UrlService, useValue: fakeUrlService}
-  ]
-}
+    { provide: HttpClient, useValue: fakeHttpService },
+    { provide: UrlService, useValue: fakeUrlService },
+  ],
+};
 
 // --------------- Test suite ---------------
 
@@ -46,7 +46,7 @@ describe('GithubService', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    fakeHttpService.get.mockImplementation(() => new EventEmitter())
+    fakeHttpService.get.mockImplementation(() => new EventEmitter());
     service = TestBed.get(GithubService);
   });
 
@@ -106,9 +106,9 @@ describe('GithubService', () => {
       const singlePageReply = {
         body: ['foo', 'bar'],
         headers: {
-          get: jest.fn().mockReturnValue('') // if link string doesnt contain rel="next/last", then it is the last page
-        }
-      }
+          get: jest.fn().mockReturnValue(''), // if link string doesnt contain rel="next/last", then it is the last page
+        },
+      };
 
       beforeEach(() => {
         fakeHttpService.get.mock.results[0].value.emit(singlePageReply);
@@ -116,7 +116,7 @@ describe('GithubService', () => {
 
       it('should query the "link" header', () => {
         expect(singlePageReply.headers.get).toBeCalledTimes(1);
-        expect(singlePageReply.headers.get).toBeCalledWith("link");
+        expect(singlePageReply.headers.get).toBeCalledWith('link');
       });
 
       it('should emit the body with the repos prop to the returned stream', () => {
@@ -131,7 +131,7 @@ describe('GithubService', () => {
 
     describe('multi page result, getting page 1/3', () => {
       const firstPage = {
-        body: [1,2,3],
+        body: [1, 2, 3],
         headers: { get: () => 'rel="last" rel="next"' },
       };
       beforeEach(() => {
@@ -144,7 +144,7 @@ describe('GithubService', () => {
 
       it('should ask for the url to the second page', () => {
         expect(fakeUrlService.urlToRepoList).toBeCalledTimes(2);
-        expect(fakeUrlService.urlToRepoList).toHaveBeenLastCalledWith(fakeUserId,2);
+        expect(fakeUrlService.urlToRepoList).toHaveBeenLastCalledWith(fakeUserId, 2);
       });
 
       it('should make a get request for the second page', () => {
@@ -154,7 +154,7 @@ describe('GithubService', () => {
 
       describe('getting page 2/3', () => {
         const secondPage = {
-          body: [4,5,6],
+          body: [4, 5, 6],
           headers: { get: () => 'rel="last" rel="next"' },
         };
         beforeEach(() => {
@@ -164,12 +164,12 @@ describe('GithubService', () => {
         it('should not emit anything', () => {
           expect(resultListener).not.toBeCalled();
         });
-  
+
         it('should ask for the url to the third page', () => {
           expect(fakeUrlService.urlToRepoList).toBeCalledTimes(3);
-          expect(fakeUrlService.urlToRepoList).toHaveBeenLastCalledWith(fakeUserId,3);
+          expect(fakeUrlService.urlToRepoList).toHaveBeenLastCalledWith(fakeUserId, 3);
         });
-  
+
         it('should make a get request for the third page', () => {
           expect(fakeHttpService.get).toBeCalledTimes(3);
           expect(fakeHttpService.get.mock.calls[2][0]).toBe(fakeUrlService.urlToRepoList.mock.results[2].value);
@@ -177,7 +177,7 @@ describe('GithubService', () => {
 
         describe('getting page 3/3', () => {
           const thirdPage = {
-            body: [7,8,9],
+            body: [7, 8, 9],
             headers: { get: () => '' },
           };
           beforeEach(() => {
@@ -190,7 +190,7 @@ describe('GithubService', () => {
           });
 
           it('should not make any further get requests', () => {
-            expect(fakeHttpService.get).toBeCalledTimes(3); //we didnt make a fourth request;
+            expect(fakeHttpService.get).toBeCalledTimes(3); // we didnt make a fourth request;
           });
         });
       });

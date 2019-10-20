@@ -15,9 +15,9 @@ import 'firebase/auth';
 import { AuthInfo } from '../../types';
 
 firebase.initializeApp({
-  apiKey: "AIzaSyCDDwa9DrgySikEq7waBfXJK1wszeZVtDI",
-  authDomain: "githubbattle-7edf6.firebaseapp.com",
-  databaseURL: "https://githubbattle-7edf6.firebaseio.com"
+  apiKey: 'AIzaSyCDDwa9DrgySikEq7waBfXJK1wszeZVtDI',
+  authDomain: 'githubbattle-7edf6.firebaseapp.com',
+  databaseURL: 'https://githubbattle-7edf6.firebaseio.com',
 });
 
 const provider = new firebase.auth.GithubAuthProvider();
@@ -28,29 +28,33 @@ export class AuthService {
   private token;
   private user;
   private error;
-  constructor(){
-    firebase.auth().onAuthStateChanged(()=>this.notifyListeners());
+  constructor() {
+    firebase.auth().onAuthStateChanged(() => this.notifyListeners());
   }
-  notifyListeners(){
-    this.listeners.forEach(cb=> cb(this.authState));
+  notifyListeners() {
+    this.listeners.forEach(cb => cb(this.authState));
   }
-  listenToAuthChanges(callback: (authInfo: AuthInfo) => any){
+  listenToAuthChanges(callback: (authInfo: AuthInfo) => any) {
     this.listeners.push(callback);
     callback(this.authState);
   }
   get authState(): AuthInfo {
-    return {token: this.token,user: this.user, error: this.error};
+    return { token: this.token, user: this.user, error: this.error };
   }
-  signInWithPopup(){
-    firebase.auth().signInWithPopup(provider).then(result => {
-      // @ts-ignore (typedef seems to be missing the accessToken?)
-      this.token = result.credential.accessToken;
-      this.user = result.user;
-      delete this.error;
-      this.notifyListeners();
-    }).catch(error => {
-      this.error = error;
-      this.notifyListeners();
-    });
-  }  
+  signInWithPopup() {
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then(result => {
+        // @ts-ignore (typedef seems to be missing the accessToken?)
+        this.token = result.credential.accessToken;
+        this.user = result.user;
+        delete this.error;
+        this.notifyListeners();
+      })
+      .catch(error => {
+        this.error = error;
+        this.notifyListeners();
+      });
+  }
 }

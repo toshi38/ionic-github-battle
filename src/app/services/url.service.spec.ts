@@ -11,8 +11,8 @@ Unit tests for the Url service. We need to test...
 
 const fakeAuthService = {
   authState: {
-    token: Math.random.toString()
-  }
+    token: Math.random.toString(),
+  },
 };
 
 // --------------- Test config ---------------
@@ -21,11 +21,8 @@ import { UrlService } from '../services/url.service';
 import { AuthService } from '../services/auth.service';
 
 const testModuleConfig = {
-  providers: [
-    UrlService,
-    {provide: AuthService, useValue: fakeAuthService},
-  ]
-}
+  providers: [UrlService, { provide: AuthService, useValue: fakeAuthService }],
+};
 
 // --------------- Test suite ---------------
 
@@ -66,7 +63,7 @@ describe('UrlService', () => {
 
   describe('the urlToRepoList method', () => {
     const fakeUserId = Math.random().toString();
-    const fakePage = Math.ceil(Math.random()*100);
+    const fakePage = Math.ceil(Math.random() * 100);
     let result;
 
     beforeEach(() => {
