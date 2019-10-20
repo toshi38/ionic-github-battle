@@ -24,7 +24,7 @@ import { HomePage } from './home.page';
 const testModuleConfig = {
   imports: [CommonModule],
   declarations: [HomePage],
-  schemas: [NO_ERRORS_SCHEMA], // to prevent complaints about unknown 'battle' element
+  schemas: [NO_ERRORS_SCHEMA], // to prevent complaints about unknown 'battle' and 'ion-button' element
   providers: [{ provide: AuthService, useValue: fakeAuthService }],
 };
 

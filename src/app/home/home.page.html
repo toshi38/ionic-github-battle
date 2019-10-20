@@ -15,8 +15,8 @@
     >
   </h2>
   <div *ngIf="!loginName">
-    You have to <button class="qa-login-button" (click)="logIn()">log in</button>, otherwise Github's API limits won't
-    let us have enough fun!
+    You have to <ion-button class="qa-login-button" (click)="logIn()">log in</ion-button>, otherwise Github's API limits
+    won't let us have enough fun!
   </div>
   <div *ngIf="error" class="qa-error-section">
     Something went wrong :(
